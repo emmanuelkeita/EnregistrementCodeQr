@@ -1,0 +1,106 @@
+
+<div>
+
+</div>
+<div class="row container-fluid">
+
+    <div class="col-6" [formGroup]="formUsers">
+        <div class="mb-3">
+                <label for="firstName" class="form-label">Prenom :</label>
+                <input formControlName="firstName" type="text" class="form-control" id="firstName" placeholder="Emmanuel">
+          </div>
+          <div class="mb-3">
+                <label for="lastName" class="form-label">Nom : </label>
+                <input formControlName="lastName" type="text" class="form-control" id="lastName" placeholder="Keita">
+          </div>
+          <div class="mb-3">
+            <label for="job" class="form-label">Job : </label>
+            <input formControlName="job" type="text" class="form-control" id="job" placeholder="Assitant-IT">
+      </div>
+          <button (click)="sendInformationUser()" type="button" class="btn btn-success">Enregistrer
+            <i class="fa fa-floppy-disk"></i>
+          </button>
+        
+    </div>
+   
+    <div class="col-6">
+          
+        <table class="table table-striped table-hover">
+            <table class="table">
+                <thead >
+                  <tr >
+                    <th scope="col">Id</th>
+                    <th scope="col">Premon</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Poste</th>
+                    <th scope="col">QrCode</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let users of tab; let index = index " >
+                    <th scope="row"> {{index+1}} </th>
+                    <td>{{users.info.firstName}}</td>
+                    <td>{{users.info.lastName}}</td>
+                    <td>{{users.info.job}}</td> 
+                    <td>
+                      <qrcode (click)="printQrCode()" [qrdata]="users.id" [width]="100" [errorCorrectionLevel]="'M'"></qrcode>
+                      
+                    </td>
+                    <td > 
+                      <button type="button" class="btn btn-danger deleteBtn">
+                        <i (click)="deleteInformationUser(index)" class="fa fa-trash"></i>
+                      </button>
+                      <!-- <button type="button" class="btn btn-danger deleteBtn">
+                        <i (click)="deleteInformationUser(index)" class="fa fa-trash"></i>
+                      </button> -->
+                        <button type="button" class="btn btn-warning  ">
+                          <i (click)="editInformationUser(index)" class="fa fa-pen-to-square "></i>
+                        </button>
+                         
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+          </table>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content" *ngIf="modalUserindex">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modification des Employer Enregistrer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+              <div class="col-6" >
+        <div class="mb-3">
+                <label for="firstName" class="form-label">Prenom :</label>
+                <input type="text" class="form-control" id="firstName" [(ngModel)]="modalUserindex.info.firstName" >
+          </div>
+          <div class="mb-3">
+                <label for="lastName" class="form-label">Nom : </label>
+                <input  type="text" class="form-control" id="lastName" [(ngModel)]="modalUserindex.info.lastName">
+          </div>
+          <div class="mb-3">
+            <label for="job" class="form-label">Job : </label>
+            <input  type="text" class="form-control" id="job" [(ngModel)]="modalUserindex.info.job">
+      </div>
+    </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="closeInformationUser()">Annuler
+          <i class="fa fa-trash"></i>
+        </button>
+        <button type="button" class="btn btn-success" (click)="saveNewEditUser()">Nouveau Enregistrement
+          <i class="fa fa-floppy-disk"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
